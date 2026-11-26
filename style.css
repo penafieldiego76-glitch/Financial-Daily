@@ -20,3 +20,7 @@ aside { padding:25px; border-top:5px solid var(--acento); }
 #bitcoin { font-size:1.8rem; color:var(--acento); }
 footer { text-align:center; padding:25px; }
 @media (max-width:700px) { main { grid-template-columns:1fr; } #foto { height:260px; } }
+#mercados { max-width:1150px; margin:30px auto; padding:0 20px; }
+.paneles { display:grid; grid-template-columns:1fr 1fr; gap:25px; }
+.paneles > div { background:var(--caja); border-radius:16px; padding:15px; min-width:0; }
+@media (max-width:700px) { .paneles { grid-template-columns:1fr; } }
