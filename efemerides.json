@@ -1,20 +1,43 @@
 {
-  "01-01": { "titulo": "1999: nace el euro", "relato": "Once países europeos adoptaron el euro como moneda común, al inicio solo para operaciones electrónicas." },
-  "01-03": { "titulo": "2009: el primer bloque de Bitcoin", "relato": "Se creó el bloque génesis, punto de partida de la red Bitcoin." },
-  "01-09": { "titulo": "2000: Ecuador anuncia la dolarización", "relato": "En medio de una grave crisis, el presidente Jamil Mahuad anunció la adopción del dólar." },
-  "05-17": { "titulo": "1792: el origen de la bolsa de Nueva York", "relato": "Un grupo de corredores firmó el Acuerdo de Buttonwood." },
-  "08-15": { "titulo": "1971: el dólar se separa del oro", "relato": "Richard Nixon suspendió la convertibilidad del dólar en oro." },
-  "09-15": { "titulo": "2008: quiebra Lehman Brothers", "relato": "La caída del banco agravó la crisis financiera mundial." },
-  "10-19": { "titulo": "1987: el Lunes Negro", "relato": "El índice Dow Jones se desplomó más de un 22 % en un solo día." },
-  "10-24": { "titulo": "1929: el Jueves Negro", "relato": "El pánico en Wall Street marcó el inicio del gran derrumbe bursátil." },
-  "11-27": { "titulo": "1895: el testamento de Alfred Nobel", "relato": "Nobel firmó el testamento que destinó su fortuna a los premios que llevan su nombre." }
+  "01-01": { "wiki": "Euro", "titulo": "1999: nace el euro", "relato": [
+    "El 1 de enero de 1999, once países europeos adoptaron una moneda común: el euro. Fue uno de los mayores experimentos monetarios de la historia.",
+    "Al principio solo existía en operaciones bancarias y electrónicas. El Banco Central Europeo asumió la política monetaria de los países participantes.",
+    "Los billetes y monedas llegaron el 1 de enero de 2002, y millones de personas dejaron atrás pesetas, francos, liras y marcos." ] },
+  "01-03": { "wiki": "Bitcoin", "titulo": "2009: el primer bloque de Bitcoin", "relato": [
+    "El 3 de enero de 2009 se creó el bloque génesis de Bitcoin, obra de una persona o grupo bajo el nombre de Satoshi Nakamoto.",
+    "El bloque incluía un titular del diario The Times sobre un nuevo rescate bancario, en plena crisis financiera.",
+    "La propuesta era un dinero digital sin bancos intermediarios. En 2010 se hizo famosa la compra de dos pizzas por 10.000 bitcoins." ] },
+  "01-09": { "wiki": "Jamil Mahuad", "titulo": "2000: Ecuador anuncia la dolarización", "relato": [
+    "El 9 de enero de 2000, el presidente Jamil Mahuad anunció que Ecuador reemplazaría el sucre por el dólar, a un cambio de 25.000 sucres.",
+    "El país venía de una crisis severa: quiebras de bancos, depósitos congelados en 1999, inflación y una rápida devaluación.",
+    "Mahuad fue derrocado pocos días después, pero su sucesor, Gustavo Noboa, mantuvo la medida. La dolarización frenó con el tiempo la inflación, aunque Ecuador renunció a emitir su propia moneda principal." ] },
+  "05-17": { "wiki": "Bolsa de Nueva York", "titulo": "1792: el origen de la bolsa de Nueva York", "relato": [
+    "El 17 de mayo de 1792, 24 corredores firmaron en Nueva York el Acuerdo de Buttonwood, llamado así por el árbol bajo el que, según la tradición, se reunían.",
+    "Acordaron negociar entre ellos y cobrar una comisión mínima, buscando orden y confianza tras un episodio de pánico financiero.",
+    "En 1817 la organización se formalizó y con los años se convirtió en la Bolsa de Nueva York." ] },
+  "08-15": { "wiki": "Richard Nixon", "titulo": "1971: el dólar se separa del oro", "relato": [
+    "El 15 de agosto de 1971, Richard Nixon anunció la suspensión de la convertibilidad del dólar en oro para los bancos centrales extranjeros.",
+    "El sistema de Bretton Woods fijaba la onza en 35 dólares, pero las reservas de Estados Unidos ya no bastaban para sostener esa promesa.",
+    "El anuncio incluyó un control temporal de precios y salarios. Hacia 1973 las principales monedas pasaron a flotar." ] },
+  "09-15": { "wiki": "Lehman Brothers", "titulo": "2008: quiebra Lehman Brothers", "relato": [
+    "El 15 de septiembre de 2008, Lehman Brothers, fundado en 1850, se declaró en quiebra con activos superiores a 600.000 millones de dólares.",
+    "El banco estaba muy expuesto a inversiones ligadas a hipotecas de alto riesgo y dependía demasiado del endeudamiento.",
+    "El Dow Jones cayó más de 500 puntos, el crédito se paralizó y la crisis se extendió por el mundo." ] },
+  "10-19": { "wiki": "Wall Street", "titulo": "1987: el Lunes Negro", "relato": [
+    "El 19 de octubre de 1987, el Dow Jones se hundió un 22,6 %, su mayor caída porcentual en un día.",
+    "Influyeron el temor económico y las ventas automáticas por computadora, que aceleraron el desplome.",
+    "La Reserva Federal ofreció liquidez y luego se crearon mecanismos que detienen las operaciones ante caídas extremas." ] },
+  "10-24": { "wiki": "Crac del 29", "titulo": "1929: el Jueves Negro", "relato": [
+    "El 24 de octubre de 1929, una ola de ventas sacudió Wall Street y cambiaron de manos cerca de 13 millones de acciones.",
+    "Muchos inversionistas habían comprado con dinero prestado. Un grupo de banqueros intentó sostener los precios, pero el alivio duró poco.",
+    "El 29 de octubre llegó un desplome aún mayor. La crisis fue el símbolo del inicio de la Gran Depresión." ] },
+  "11-26": { "wiki": "SARS-CoV-2", "titulo": "2021: Ómicron sacude los mercados", "relato": [
+    "El 26 de noviembre de 2021, los mercados despertaron inquietos por una nueva variante del coronavirus detectada en el sur de África.",
+    "Ese día la Organización Mundial de la Salud la llamó Ómicron y la declaró variante de preocupación.",
+    "En Wall Street, con jornada reducida tras Acción de Gracias, el Dow Jones perdió cerca de 900 puntos, alrededor de un 2,5 %.",
+    "El petróleo se desplomó más de un 10 % ante el temor de menos viajes. Las aerolíneas y el turismo estuvieron entre los más golpeados." ] },
+  "11-27": { "wiki": "Alfred Nobel", "titulo": "1895: el testamento de Alfred Nobel", "relato": [
+    "El 27 de noviembre de 1895, Alfred Nobel, inventor de la dinamita, firmó en París el testamento que cambiaría el destino de su fortuna.",
+    "Dispuso que la mayor parte se invirtiera y que sus rendimientos premiaran aportes en física, química, medicina, literatura y paz.",
+    "Murió en 1896 y los primeros premios se entregaron en 1901. El de Economía se creó en 1968, impulsado por el banco central de Suecia." ] }
 }
-    "11-26": {
-    "titulo": "2021: Ómicron sacude los mercados",
-    "relato": [
-      "El 26 de noviembre de 2021, los mercados despertaron con una noticia inquietante: una nueva variante del coronavirus, detectada en el sur de África, preocupaba a los científicos. Ese mismo día la Organización Mundial de la Salud la llamó Ómicron y la declaró variante de preocupación.",
-      "El temor a nuevas restricciones golpeó las bolsas de Asia, Europa y América. En Wall Street, que tenía una jornada reducida tras Acción de Gracias, el Dow Jones perdió cerca de 900 puntos, alrededor de un 2,5 %.",
-      "El petróleo sufrió aún más, con desplomes superiores al 10 %, porque los inversionistas anticiparon menos viajes y menor demanda de combustible. Las aerolíneas y las empresas turísticas estuvieron entre las más afectadas.",
-      "La lección: los mercados reaccionan con fuerza ante la incertidumbre, incluso antes de conocer todos los datos."
-    ]
-  },
