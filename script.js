@@ -1,3 +1,34 @@
+const $ = id => document.getElementById(id);
+const dos = n => String(n).padStart(2, "0");
+
+// Para probar otra fecha: ?fecha=09-15
+const hoy = new Date();
+const prueba = new URLSearchParams(location.search).get("fecha");
+if (/^\d{2}-\d{2}$/.test(prueba)) {
+  const [m, d] = prueba.split("-").map(Number);
+  hoy.setMonth(m - 1, d);
+}
+const mes = dos(hoy.getMonth() + 1);
+const dia = dos(hoy.getDate());
+
+$("fecha").textContent = hoy.toLocaleDateString("es-EC", {
+  weekday: "long", day: "numeric", month: "long", year: "numeric"
+});
+
+async function pedir(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+function parrafos(id, textos) {
+  $(id).replaceChildren(...textos.filter(Boolean).map(t => {
+    const p = document.createElement("p");
+    p.textContent = t;
+    return p;
+  }));
+}
+
 async function cargarHistoria() {
   const temas = {
     "01-01": "Euro", "01-03": "Bitcoin", "01-09": "Dolarización",
@@ -6,16 +37,12 @@ async function cargarHistoria() {
     "10-24": "Crac del 29", "11-26": "Bolsa de valores",
     "11-27": "Alfred Nobel"
   };
-  const parrafos = (id, textos) => {
-    $(id).replaceChildren(...textos.filter(Boolean).map(t => {
-      const p = document.createElement("p");
-      p.textContent = t;
-      return p;
-    }));
-  };
   try {
     const fecha = `${mes}-${dia}`;
-    const propias = await pedir("efemerides.json").catch(() => ({}));
+    const propias = await pedir("efemerides.json").catch(e => {
+      console.error("Error en efemerides.json:", e);
+      return {};
+    });
     const propia = propias[fecha];
     let tema;
 
@@ -54,7 +81,27 @@ async function cargarHistoria() {
     }
     $("fuente").href = pag.fullurl;
     $("fuente").hidden = false;
-  } catch {
+  } catch (e) {
+    console.error(e);
     $("titulo").textContent = "No se pudo cargar la historia";
   }
 }
+
+async function cargarMercados() {
+  try {
+    const { rates } = await pedir("https://open.er-api.com/v6/latest/USD");
+    $("monedas").innerHTML = ["EUR", "COP", "PEN", "MXN"]
+      .map(c => `<li>${rates[c].toFixed(2)} ${c}</li>`).join("");
+  } catch {
+    $("monedas").textContent = "No disponible";
+  }
+  try {
+    const { data } = await pedir("https://api.coinbase.com/v2/prices/BTC-USD/spot");
+    $("bitcoin").textContent = `US$ ${Number(data.amount).toLocaleString("es-EC", { maximumFractionDigits: 0 })}`;
+  } catch {
+    $("bitcoin").textContent = "No disponible";
+  }
+}
+
+cargarHistoria();
+cargarMercados();
