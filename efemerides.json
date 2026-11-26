@@ -1,0 +1,11 @@
+{
+  "01-01": { "titulo": "1999: nace el euro", "relato": "Once países europeos adoptaron el euro como moneda común, al inicio solo para operaciones electrónicas." },
+  "01-03": { "titulo": "2009: el primer bloque de Bitcoin", "relato": "Se creó el bloque génesis, punto de partida de la red Bitcoin." },
+  "01-09": { "titulo": "2000: Ecuador anuncia la dolarización", "relato": "En medio de una grave crisis, el presidente Jamil Mahuad anunció la adopción del dólar." },
+  "05-17": { "titulo": "1792: el origen de la bolsa de Nueva York", "relato": "Un grupo de corredores firmó el Acuerdo de Buttonwood." },
+  "08-15": { "titulo": "1971: el dólar se separa del oro", "relato": "Richard Nixon suspendió la convertibilidad del dólar en oro." },
+  "09-15": { "titulo": "2008: quiebra Lehman Brothers", "relato": "La caída del banco agravó la crisis financiera mundial." },
+  "10-19": { "titulo": "1987: el Lunes Negro", "relato": "El índice Dow Jones se desplomó más de un 22 % en un solo día." },
+  "10-24": { "titulo": "1929: el Jueves Negro", "relato": "El pánico en Wall Street marcó el inicio del gran derrumbe bursátil." },
+  "11-27": { "titulo": "1895: el testamento de Alfred Nobel", "relato": "Nobel firmó el testamento que destinó su fortuna a los premios que llevan su nombre." }
+}
