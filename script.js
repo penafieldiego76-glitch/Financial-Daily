@@ -69,7 +69,7 @@ async function cargarHistoria() {
     if (!pag || pag.missing) return;
 
        const resumen = (pag.extract || "").split("\n")[0];
-    parrafos("contexto", [resumen.length > 300 ? resumen.slice(0, 300).trim() + "…" : resumen]);
+ parrafos("contexto", (pag.extract || "").split("\n").slice(0, 1));
     if (pag.extract) {
       const h = document.createElement("h3");
       h.textContent = `Para entenderlo mejor: ${pag.title}`;
