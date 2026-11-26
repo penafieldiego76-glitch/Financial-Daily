@@ -63,7 +63,7 @@ async function cargarMercados() {
   }
   try {
     const { data } = await pedir("https://api.coinbase.com/v2/prices/BTC-USD/spot");
-    $("bitcoin").textContent = `US$ ${Number(data.amount).toLocaleString("es-EC")}`;
+    $("bitcoin").textContent = `US$ ${Number(data.amount).toLocaleString("es-EC", { maximumFractionDigits: 0 })}`;
   } catch {
     $("bitcoin").textContent = "No disponible";
   }
