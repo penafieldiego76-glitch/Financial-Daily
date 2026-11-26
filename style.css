@@ -1,5 +1,5 @@
 /* MODELO: cambia solo este bloque */
-:root { --fondo:#0b1120; --caja:#151f35; --texto:#e5e7eb; --acento:#22c55e; --portada:#020617; --letra:Arial, sans-serif; }
+:root { --fondo:#0f1b2d; --caja:#1b2b45; --texto:#f8f1e1; --acento:#d4af37; --portada:#081020; --letra:Georgia, serif; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
