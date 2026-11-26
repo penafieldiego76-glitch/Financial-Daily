@@ -9,4 +9,12 @@
   "10-24": { "titulo": "1929: el Jueves Negro", "relato": "El pánico en Wall Street marcó el inicio del gran derrumbe bursátil." },
   "11-27": { "titulo": "1895: el testamento de Alfred Nobel", "relato": "Nobel firmó el testamento que destinó su fortuna a los premios que llevan su nombre." }
 }
-  "11-26": { "titulo": "2021: Ómicron sacude los mercados", "relato": "La preocupación por la nueva variante del coronavirus provocó fuertes ventas en todo el mundo. El petróleo se hundió más de un 10 % y el Dow Jones sufrió su peor jornada de ese año, con una caída cercana a los 900 puntos. En pocas horas, los inversionistas pasaron del optimismo por la recuperación al temor de nuevos cierres." },
+    "11-26": {
+    "titulo": "2021: Ómicron sacude los mercados",
+    "relato": [
+      "El 26 de noviembre de 2021, los mercados despertaron con una noticia inquietante: una nueva variante del coronavirus, detectada en el sur de África, preocupaba a los científicos. Ese mismo día la Organización Mundial de la Salud la llamó Ómicron y la declaró variante de preocupación.",
+      "El temor a nuevas restricciones golpeó las bolsas de Asia, Europa y América. En Wall Street, que tenía una jornada reducida tras Acción de Gracias, el Dow Jones perdió cerca de 900 puntos, alrededor de un 2,5 %.",
+      "El petróleo sufrió aún más, con desplomes superiores al 10 %, porque los inversionistas anticiparon menos viajes y menor demanda de combustible. Las aerolíneas y las empresas turísticas estuvieron entre las más afectadas.",
+      "La lección: los mercados reaccionan con fuerza ante la incertidumbre, incluso antes de conocer todos los datos."
+    ]
+  },
