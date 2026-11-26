@@ -14,17 +14,17 @@
   </header>
   <main>
     <div>
-  <article>
-    <div class="texto">
-      <span class="etiqueta">UN DÍA COMO HOY</span>
-      <h2 id="titulo">Cargando...</h2>
-      <div id="relato"></div>
-      <div id="contexto"></div>
-      <a id="fuente" target="_blank" rel="noopener" hidden>Leer el artículo y ver créditos</a>
+      <article>
+        <div class="texto">
+          <span class="etiqueta">UN DÍA COMO HOY</span>
+          <h2 id="titulo">Cargando...</h2>
+          <div id="relato"></div>
+          <div id="contexto"></div>
+          <a id="fuente" target="_blank" rel="noopener" hidden>Leer el artículo y ver créditos</a>
+        </div>
+      </article>
+      <img id="foto" alt="" hidden>
     </div>
-  </article>
-  <img id="foto" alt="" hidden>
-</div>
     <aside>
       <h3>📈 Mercados ahora</h3>
       <p>1 dólar equivale a:</p>
@@ -34,12 +34,23 @@
       <p><small><a href="https://www.exchangerate-api.com">Rates By Exchange Rate API</a> · Coinbase</small></p>
     </aside>
   </main>
+  <section id="mercados">
+    <h2>Mercados financieros</h2>
+    <div class="paneles">
+      <div>
+        <h3>🏢 Acciones de empresas</h3>
+        <div id="acciones" class="tradingview-widget-container"></div>
+      </div>
+      <div>
+        <h3>🪙 Criptomonedas</h3>
+        <div id="criptos" class="tradingview-widget-container"></div>
+      </div>
+    </div>
+    <p><small>Datos de <a href="https://www.tradingview.com/" target="_blank" rel="noopener">TradingView</a>. Algunas cotizaciones pueden tener retraso.</small></p>
+  </section>
   <footer>Textos de Wikipedia: CC BY-SA. Cada imagen conserva su propia licencia.</footer>
   <script src="script.js"></script>
+  <script src="mercados.js"></script>
 </body>
 </html>
-  </main>
-  <footer>Contenido de Wikipedia bajo licencia CC BY-SA.</footer>
-<script src="script.js"></script>
-</body>
-</html>
+ 
