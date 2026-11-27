@@ -123,4 +123,103 @@
       boton(c, "Todo", () => comprar(i, s.efectivo), s.efectivo < 1);
       boton(c, "Vender", () => vender(i), s.inv[i] < 1);
     });
-    if (s.deuda > 0) boton(zona, "💳 Pagar deuda", pagar, s.efectivo
+    if (s.deuda > 0) boton(zona, "💳 Pagar deuda", pagar, s.efectivo < 1);
+    boton(zona, "⏭️ Avanzar al siguiente mes", avanzar);
+  }
+
+  function grafico() {
+    const max = Math.max(...s.historial, s.p.meta, 1);
+    const y = v => 120 - Math.max(0, v) / max * 110;
+    const puntos = s.historial.map((v, i) => `${i * 50},${y(v)}`).join(" ");
+    const caja = nodo(zona, "div");
+    caja.innerHTML = `<svg viewBox="0 0 600 130" preserveAspectRatio="none" role="img" aria-label="Evolución de tu patrimonio">
+      <line x1="0" x2="600" y1="${y(s.p.meta)}" y2="${y(s.p.meta)}" stroke="gray" stroke-dasharray="6"/>
+      <polyline points="${puntos}" fill="none" stroke="var(--acento)" stroke-width="4"/></svg>
+      <small>Tu patrimonio (línea punteada: meta)</small>`;
+  }
+
+  function comprar(i, monto) {
+    const m = Math.min(monto, s.efectivo);
+    s.efectivo -= m;
+    s.inv[i] += m;
+    pintar();
+  }
+  function vender(i) {
+    s.efectivo += s.inv[i];
+    s.inv[i] = 0;
+    pintar();
+  }
+  function pagar() {
+    const m = Math.min(s.deuda, s.efectivo);
+    s.efectivo -= m;
+    s.deuda -= m;
+    pintar();
+  }
+
+  function decidir([nombre, costo, animo, extra = 0, nota = ""]) {
+    // Usa efectivo, luego inversiones y, si no alcanza, deuda
+    let falta = costo;
+    const usado = Math.min(falta, s.efectivo);
+    s.efectivo -= usado;
+    falta -= usado;
+    s.inv.forEach((v, i) => {
+      const m = Math.min(falta, v);
+      s.inv[i] -= m;
+      falta -= m;
+    });
+    if (falta > 0) { s.deuda += falta; s.endeudado = true; }
+    if (nombre.startsWith("Entrar")) s.estafado = true;
+    s.sueldo += extra;
+    s.animo = Math.max(0, Math.min(100, s.animo + animo));
+    s.mensaje = nota || `Elegiste: ${nombre}.`;
+    s.evento = null;
+    pintar();
+  }
+
+  function avanzar() {
+    const cierto = Math.random() < 0.65;
+    const antes = total();
+    const cambios = activos.map((a, i) => {
+      const c = a.min + Math.random() * (a.max - a.min) + (cierto ? s.rumor[1][i] : 0);
+      s.inv[i] = Math.max(0, s.inv[i] * (1 + c / 100));
+      return `${a.n} ${c >= 0 ? "▲" : "▼"} ${Math.abs(c).toFixed(1)}%`;
+    });
+    s.deuda *= 1.05;
+    const ganancia = total() - antes;
+    s.efectivo += s.sueldo;
+    s.historial.push(total());
+    s.mensaje = `El rumor resultó ${cierto ? "CIERTO ✅" : "FALSO ❌"}. ${cambios.join(" · ")}. Resultado: ${ganancia >= 0 ? "+" : "-"}${dinero(Math.abs(ganancia))}. Cobraste ${dinero(s.sueldo)}.`;
+    if (s.mes === 12) return terminar();
+    s.mes++;
+    s.rumor = azar(rumores);
+    if (s.mes % 2 === 0) s.evento = azar(imprevistos);
+    pintar();
+  }
+
+  function terminar() {
+    const final = total();
+    let record = 0;
+    try { record = Number(localStorage.getItem("recordJuego2")) || 0; } catch {}
+    if (final > record) {
+      record = final;
+      try { localStorage.setItem("recordJuego2", final); } catch {}
+    }
+    const logros = [
+      final >= s.p.meta && "🏆 Meta cumplida",
+      !s.endeudado && "🛡️ Un año sin deudas",
+      !s.estafado && "🕵️ A prueba de estafas",
+      s.animo >= 70 && "😊 Vida equilibrada",
+      s.inv.filter(v => v > 1).length >= 3 && "🧺 Portafolio diversificado"
+    ].filter(Boolean);
+    zona.replaceChildren();
+    nodo(zona, "h3", final >= s.p.meta ? "🎉 ¡Ganaste!" : "📚 No llegaste a la meta");
+    nodo(zona, "p", s.mensaje, "j-aviso");
+    grafico();
+    nodo(zona, "p", `Patrimonio final: ${dinero(final)} · Meta: ${dinero(s.p.meta)} · Bienestar: ${s.animo}/100`);
+    nodo(zona, "p", `Logros: ${logros.join(" · ") || "ninguno todavía"}`);
+    nodo(zona, "p", `Tu mejor patrimonio: ${dinero(record)}`);
+    boton(zona, "🔄 Jugar de nuevo", menu);
+  }
+
+  menu();
+})();
