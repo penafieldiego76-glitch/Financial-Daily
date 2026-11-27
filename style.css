@@ -40,3 +40,6 @@ blockquote { margin:0 0 25px; padding:20px; font-size:1.4rem; text-align:center;
 .tarjeta label { display:block; margin-bottom:12px; }
 .tarjeta input { display:block; width:100%; }
 #total { font-size:1.4rem; font-weight:bold; color:var(--acento); }
+#lista2026 { max-height:600px; overflow-y:auto; }
+.noticia { padding:18px; margin-bottom:12px; border-left:5px solid var(--acento); }
+.noticia h3 { margin:5px 0; }
