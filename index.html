@@ -7,24 +7,34 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="cinta" class="tradingview-widget-container"></div>
   <header>
     <p>EL DIARIO DEL DINERO</p>
     <h1>Historias Financieras</h1>
     <p id="fecha"></p>
   </header>
+  <nav>
+    <button id="ayer">⬅️ Ayer</button>
+    <input type="date" id="calendario" aria-label="Elegir fecha">
+    <button id="actual">Hoy</button>
+    <button id="manana">Mañana ➡️</button>
+  </nav>
   <main>
-    <div>
-      <article>
-        <div class="texto">
+    <article>
+      <div class="portada">
+        <img id="foto" alt="" hidden>
+        <div class="titular">
           <span class="etiqueta">UN DÍA COMO HOY</span>
           <h2 id="titulo">Cargando...</h2>
-          <div id="relato"></div>
-          <div id="contexto"></div>
-          <a id="fuente" target="_blank" rel="noopener" hidden>Leer el artículo y ver créditos</a>
         </div>
-      </article>
-      <img id="foto" alt="" hidden>
-    </div>
+      </div>
+      <div class="texto">
+        <div id="relato"></div>
+        <div id="contexto"></div>
+        <a id="fuente" target="_blank" rel="noopener" hidden>Leer el artículo y ver créditos</a>
+        <p><button id="compartir">📲 Compartir por WhatsApp</button></p>
+      </div>
+    </article>
     <aside>
       <h3>📈 Mercados ahora</h3>
       <p>1 dólar equivale a:</p>
@@ -34,6 +44,25 @@
       <p><small><a href="https://www.exchangerate-api.com">Rates By Exchange Rate API</a> · Coinbase</small></p>
     </aside>
   </main>
+  <section class="extras">
+    <blockquote>💡 <span id="consejo"></span></blockquote>
+    <div class="paneles">
+      <div class="tarjeta">
+        <h3>🧠 Quiz del día</h3>
+        <p id="pregunta"></p>
+        <div id="opciones"></div>
+        <p id="resultado"></p>
+      </div>
+      <div class="tarjeta">
+        <h3>💰 ¿Cuánto tendrías?</h3>
+        <label>Ahorro mensual (US$) <input type="number" id="monto" value="30" min="0"></label>
+        <label>Interés anual (%) <input type="number" id="tasa" value="5" min="0" step="0.1"></label>
+        <label>Años <input type="number" id="anios" value="10" min="1" max="60"></label>
+        <p id="total"></p>
+        <small>Cálculo ilustrativo: no incluye impuestos, comisiones ni inflación.</small>
+      </div>
+    </div>
+  </section>
   <section id="mercados">
     <h2>Mercados financieros</h2>
     <div class="paneles">
@@ -51,6 +80,6 @@
   <footer>Textos de Wikipedia: CC BY-SA. Cada imagen conserva su propia licencia.</footer>
   <script src="script.js"></script>
   <script src="mercados.js"></script>
+  <script src="extras.js"></script>
 </body>
 </html>
- 
