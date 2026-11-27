@@ -1,105 +1,126 @@
 (() => {
   const estilo = document.createElement("style");
   estilo.textContent = `
-    #juego { text-align:center; }
-    #juego .caja { background:var(--caja); border:2px solid var(--acento); border-radius:16px; padding:25px; }
-    #juego .saldo { font-size:2.4rem; font-weight:bold; color:var(--acento); margin:10px; }
-    #juego button { margin:6px; }
+    #juego .caja { background:var(--caja); border:2px solid var(--acento); border-radius:16px; padding:25px; text-align:center; }
+    #juego button { margin:4px; }
+    #juego button:disabled { opacity:.35; cursor:default; }
+    .j-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin:18px 0; }
+    .j-card { border:1px solid #8886; border-radius:12px; padding:14px; }
+    .j-card b { display:block; font-size:1.3rem; color:var(--acento); }
+    .j-aviso { background:#0003; border-radius:12px; padding:14px; margin:12px 0; }
+    #juego svg { width:100%; height:130px; background:#0003; border-radius:12px; }
+    #juego progress { width:180px; vertical-align:middle; }
   `;
   document.head.append(estilo);
 
   const seccion = document.createElement("section");
   seccion.className = "extras";
   seccion.id = "juego";
-  seccion.innerHTML = `
-    <div class="caja">
-      <h2>🎮 Inversionista por un año</h2>
-      <p>Invierte todo tu dinero cada mes. ¿Podrás duplicarlo? (Juego ficticio con resultados al azar.)</p>
-      <p id="j-mes"></p>
-      <div class="saldo" id="j-saldo"></div>
-      <div id="j-botones"></div>
-      <p id="j-mensaje" aria-live="polite"></p>
-      <p id="j-record"></p>
-    </div>`;
+  seccion.innerHTML = `<div class="caja"><h2>🎮 Inversionista por un año</h2><div id="j-zona"></div></div>`;
   document.querySelector("footer").before(seccion);
+  const zona = document.getElementById("j-zona");
 
-  const el = id => document.getElementById(id);
   const dinero = v => "US$ " + Math.round(v).toLocaleString("es-EC");
+  const azar = lista => lista[Math.floor(Math.random() * lista.length)];
 
-  // min y max: cambio posible en un mes (%)
-  const opciones = [
-    { nombre: "🏦 Ahorro", min: 0.3, max: 0.6 },
-    { nombre: "📜 Bonos", min: -2, max: 3 },
-    { nombre: "🏢 Acciones", min: -10, max: 13 },
-    { nombre: "🪙 Cripto", min: -35, max: 45 }
+  const activos = [
+    { n: "🏦 Ahorro", d: "Seguro y lento", min: 0.3, max: 0.6 },
+    { n: "📜 Bonos", d: "Riesgo bajo", min: -2, max: 3 },
+    { n: "🏢 Acciones", d: "Riesgo medio", min: -9, max: 12 },
+    { n: "🪙 Cripto", d: "Riesgo muy alto", min: -30, max: 38 }
   ];
-  // efecto de cada noticia sobre [ahorro, bonos, acciones, cripto]
-  const eventos = [
-    ["📰 ¡Auge tecnológico!", [0, 0, 8, 10]],
-    ["📰 Crisis bancaria.", [0, 1, -12, -8]],
-    ["📰 Suben las tasas de interés.", [0.5, -3, -5, -10]],
-    ["📰 Fiebre cripto.", [0, 0, 0, 25]],
-    ["📰 Hackeo a una plataforma cripto.", [0, 0, 0, -30]],
-    ["📰 Grandes ganancias empresariales.", [0, 0, 9, 0]]
+  const personajes = [
+    { n: "🎓 Estudiante", dinero: 500, sueldo: 60, meta: 1500 },
+    { n: "👩‍💼 Empleado", dinero: 1000, sueldo: 150, meta: 3300 },
+    { n: "🚀 Emprendedor", dinero: 3000, sueldo: 50, meta: 4500 }
+  ];
+  // efectos en %: [ahorro, bonos, acciones, cripto]
+  const rumores = [
+    ["Se habla de un auge tecnológico.", [0, 0, 10, 12]],
+    ["Analistas temen una crisis bancaria.", [0, 1, -14, -10]],
+    ["El banco central subiría las tasas.", [0.5, -3, -6, -12]],
+    ["En redes dicen que las cripto se disparan.", [0, 0, 0, 30]],
+    ["Se rumora un hackeo a una plataforma cripto.", [0, 0, 0, -28]],
+    ["Las empresas anunciarían ganancias récord.", [0, 0, 11, 3]],
+    ["Posible recesión: muchos buscan refugio.", [0, 3, -10, -15]]
+  ];
+  const imprevistos = [
+    { t: "📱 Se dañó tu celular.", o: [["Comprar el último modelo", 400, 10], ["Repararlo", 90, 0], ["Aguantar así", 0, -15]] },
+    { t: "🎉 Tus amigos planean un viaje.", o: [["Ir con todo", 300, 20], ["Plan económico", 100, 8], ["Quedarme", 0, -10]] },
+    { t: "🏥 Una emergencia médica.", o: [["Buena atención", 250, 0], ["Opción básica", 120, -8], ["Ignorarlo", 0, -30]] },
+    { t: "📚 Hay un curso que mejora tu sueldo.", o: [["Tomarlo (+US$ 50 al mes)", 200, 5, 50], ["Ahora no", 0, 0]] },
+    { t: "🤑 Te ofrecen duplicar tu dinero en una semana.", o: [["Entrar con US$ 200", 200, -15, 0, "¡Era una estafa! Lo perdiste todo."], ["Rechazar", 0, 5, 0, "Bien hecho: era una estafa."]] }
   ];
 
-  let saldo, mes, record = 0;
-  try { record = Number(localStorage.getItem("recordInversion")) || 0; } catch {}
+  let s;
 
-  function boton(texto, accion) {
+  function boton(padre, texto, accion, apagado = false) {
     const b = document.createElement("button");
     b.textContent = texto;
+    b.disabled = apagado;
     b.onclick = accion;
-    el("j-botones").append(b);
+    padre.append(b);
+  }
+  function nodo(padre, etiqueta, texto = "", clase = "") {
+    const e = document.createElement(etiqueta);
+    e.textContent = texto;
+    e.className = clase;
+    padre.append(e);
+    return e;
+  }
+  const total = () => s.efectivo + s.inv.reduce((a, b) => a + b, 0) - s.deuda;
+
+  function menu() {
+    zona.replaceChildren();
+    nodo(zona, "p", "Tienes 12 meses para alcanzar tu meta sin descuidar tu bienestar. Elige tu personaje:");
+    const g = nodo(zona, "div", "", "j-grid");
+    personajes.forEach(p => {
+      const c = nodo(g, "div", "", "j-card");
+      nodo(c, "b", p.n);
+      nodo(c, "p", `Inicio: ${dinero(p.dinero)} · Sueldo libre: ${dinero(p.sueldo)} · Meta: ${dinero(p.meta)}`);
+      boton(c, "Jugar", () => iniciar(p));
+    });
+    nodo(zona, "small", "Juego ficticio: no es una recomendación de inversión.");
+  }
+
+  function iniciar(p) {
+    s = { p, efectivo: p.dinero, sueldo: p.sueldo, inv: [0, 0, 0, 0], deuda: 0, animo: 70,
+      mes: 1, historial: [p.dinero], mensaje: "¡Empieza tu año! Reparte tu dinero.",
+      rumor: azar(rumores), evento: null, endeudado: false, estafado: false };
+    pintar();
   }
 
   function pintar() {
-    el("j-mes").textContent = `Mes ${Math.min(mes, 12)} de 12`;
-    el("j-saldo").textContent = dinero(saldo);
-    el("j-record").textContent = record ? `🏆 Tu récord: ${dinero(record)}` : "";
-  }
+    zona.replaceChildren();
+    nodo(zona, "h3", `${s.p.n} · Mes ${s.mes} de 12`);
+    const g = nodo(zona, "div", "", "j-grid");
+    [["Patrimonio", dinero(total())], ["Efectivo", dinero(s.efectivo)],
+     ["Deuda", dinero(s.deuda)], ["Meta", dinero(s.p.meta)]].forEach(([t, v]) => {
+      const c = nodo(g, "div", t, "j-card");
+      nodo(c, "b", v);
+    });
+    const barra = nodo(zona, "p", `Bienestar ${s.animo}/100 `);
+    const pr = nodo(barra, "progress");
+    pr.max = 100;
+    pr.value = s.animo;
+    grafico();
+    nodo(zona, "p", s.mensaje, "j-aviso").setAttribute("aria-live", "polite");
 
-  function iniciar() {
-    saldo = 1000;
-    mes = 1;
-    el("j-mensaje").textContent = "¿Dónde inviertes este mes?";
-    el("j-botones").replaceChildren();
-    opciones.forEach((o, i) => boton(o.nombre, () => jugar(i)));
-    pintar();
-  }
-
-  function jugar(i) {
-    const o = opciones[i];
-    let cambio = o.min + Math.random() * (o.max - o.min);
-    let noticia = "Mes sin grandes noticias.";
-    if (Math.random() < 0.35) {
-      const [texto, efectos] = eventos[Math.floor(Math.random() * eventos.length)];
-      noticia = texto;
-      cambio += efectos[i];
+    if (s.evento) {
+      nodo(zona, "h3", s.evento.t);
+      s.evento.o.forEach(o => boton(zona, `${o[0]} (${dinero(o[1])})`, () => decidir(o)));
+      return;
     }
-    const antes = saldo;
-    saldo = Math.max(0, saldo * (1 + cambio / 100));
-    const diferencia = saldo - antes;
-    el("j-mensaje").textContent =
-      `${noticia} ${diferencia >= 0 ? "✅ Ganaste" : "❌ Perdiste"} ${dinero(Math.abs(diferencia))} (${cambio.toFixed(1)} %).`;
-    mes++;
-    if (mes > 12) terminar();
-    pintar();
-  }
 
-  function terminar() {
-    const rango = saldo >= 2000 ? "🐺 Lobo de Wall Street"
-      : saldo >= 1300 ? "🚀 Gran inversionista"
-      : saldo >= 1000 ? "👍 Inversionista prudente"
-      : "📚 Aprendiz: ¡inténtalo otra vez!";
-    el("j-mensaje").textContent += ` Fin del año. Tu rango: ${rango}`;
-    if (saldo > record) {
-      record = saldo;
-      try { localStorage.setItem("recordInversion", record); } catch {}
-    }
-    el("j-botones").replaceChildren();
-    boton("🔄 Jugar de nuevo", iniciar);
-  }
-
-  iniciar();
-})();
+    nodo(zona, "p", `🗣️ Rumor del mes: ${s.rumor[0]} (puede ser falso)`, "j-aviso");
+    const cartera = nodo(zona, "div", "", "j-grid");
+    activos.forEach((a, i) => {
+      const c = nodo(cartera, "div", "", "j-card");
+      nodo(c, "strong", a.n);
+      nodo(c, "b", dinero(s.inv[i]));
+      nodo(c, "p", a.d);
+      boton(c, "+100", () => comprar(i, 100), s.efectivo < 1);
+      boton(c, "Todo", () => comprar(i, s.efectivo), s.efectivo < 1);
+      boton(c, "Vender", () => vender(i), s.inv[i] < 1);
+    });
+    if (s.deuda > 0) boton(zona, "💳 Pagar deuda", pagar, s.efectivo
